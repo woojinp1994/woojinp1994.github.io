@@ -1,0 +1,13 @@
+@use "../mixins";
+
+.hero {
+  max-width: 68ch;
+
+  &-title {
+    @include mixins.font($size: "4xl");
+  }
+
+  &-subtitle {
+    @include mixins.font($size: "xl", $leading: "sm");
+  }
+}

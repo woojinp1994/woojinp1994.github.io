@@ -1,0 +1,6 @@
+@use "../functions";
+
+.prose {
+  max-width: functions.to-rems(790px);
+  margin: 0 auto;
+}

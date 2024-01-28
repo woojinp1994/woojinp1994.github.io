@@ -1,0 +1,44 @@
+<footer class="page-footer size-font-sm">
+    <div class="page-footer-container container">
+      <div class="stack gap--1">
+        <h2 class="size-font-xl">Thanks for reading!</h2>
+        <p>&copy; {{ site.author }}, 2019–Present</p>
+        <p>
+        <a
+          href="https://www.github.com/{{ site.issues.owner }}/{{ site.issues.repo }}/commit/{{ buildInfo.hash }}"
+          rel="noreferrer noopener"
+          target="_blank">Last built</a> on
+        <time datetime="{{ buildInfo.time.raw }}">{{ buildInfo.time.formatted }}</time>&nbsp;
+        </p>
+      </div>
+      <div class="stack gap--1 page-footer-end">
+        <ul class="page-footer-socials">
+          {%- assign networks = socials | entries -%}
+          {%- for network in networks -%}
+          {%- assign id = network | first -%}
+          {%- if id != "twitter" -%}
+          {%- assign data = network | last -%}
+          <li>
+            <a href="{{ data.url }}" target="_blank" rel="noreferrer noopener" class="outline-offset to-underline">
+              {{ data.name }}
+            </a>
+          </li>
+          {%- endif -%}
+          {%- endfor -%}
+          <li>
+            <a href="/sitemap.xml" class="outline-offset to-underline">
+              Sitemap
+            </a>
+          </li>
+          <li>
+            <a href="/feed.xml" class="outline-offset to-underline">
+              RSS
+            </a>
+          </li>
+        </ul>
+        {% if isThemed %}
+          {% include "themePicker.html" %}
+        {% endif %}
+      </div>
+    </div>
+  </footer>

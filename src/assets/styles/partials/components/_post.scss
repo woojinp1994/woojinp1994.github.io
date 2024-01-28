@@ -1,0 +1,43 @@
+@use "../functions";
+@use "../mixins";
+
+.post {
+  counter-reset: footnotes;
+
+  &-title {
+    margin-bottom: functions.spacing("-2");
+
+    // Allow title to extend slightly past the parent width on wider devices. This cosmetic
+    // touch-up fixes most instances of orphaned words in titles.
+    @include mixins.desktop-lg {
+      max-width: functions.to-rems(900px);
+      width: max-content;
+    }
+  }
+
+  &-date {
+    color: var(--color-text-soft);
+    margin-bottom: functions.spacing("-3");
+    @include mixins.font($size: "sm");
+
+    dt,
+    dd {
+      display: inline-block;
+    }
+  }
+
+  &-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: functions.spacing("-3") functions.spacing("-2");
+  }
+
+  &-tag {
+    color: var(--color-text-soft);
+
+    &::before {
+      content: "#";
+      user-select: none;
+    }
+  }
+}

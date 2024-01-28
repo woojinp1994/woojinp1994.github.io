@@ -1,0 +1,15 @@
+@use "../functions";
+
+.button {
+  --outline-offset: var(--outline-thickness);
+  --outline-color: var(--color-surface-8);
+  background-color: var(--color-surface-8);
+  color: var(--color-text-inverted);
+  padding: functions.spacing("-2") functions.spacing("0");
+  border-radius: functions.spacing("-4");
+  text-decoration: none;
+
+  &:is(:focus, :hover) {
+    background-color: var(--color-surface-7);
+  }
+}
