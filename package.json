@@ -1,25 +1,51 @@
 {
   "name": "woojinp1994.github.io",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "An 11ty based personal website",
+  "version": "0.0.2",
+  "license": "MIT",
+  "author": "Woojin Park",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch:sass": "sass src/static/scss:public/static/css --watch",
-    "build:sass": "sass src/static/scss:public/static/css",
-    "watch:eleventy": "eleventy --serve",
-    "build:eleventy": "ELEVENTY_ENV=development eleventy",
-    "start": "npm run watch:eleventy & npm run watch:sass",
-    "build": "npm run build:eleventy & npm run build:sass",
-    "build:sass:prod": "sass src/static/scss:public/static/css --style compressed",
-    "build:eleventy:prod": "ELEVENTY_ENV=production eleventy",
-    "build:prod": "npm run build:eleventy:prod & npm run build:sass:prod"
+    "clean": "rimraf _site",
+    "debug:html": "cross-env DEBUG=Eleventy* ELEVENTY_ENV=development npx @11ty/eleventy --serve --incremental --port=8080",
+    "serve": "npm-run-all --parallel serve:*",
+    "serve:html": "cross-env ELEVENTY_ENV=development npx @11ty/eleventy --serve --incremental --port=8080",
+    "serve:css": "sass --watch src/assets/styles:_site/assets/styles --style=expanded",
+    "build": "run-s build:html build:css",
+    "build:html": "cross-env ELEVENTY_ENV=production npx @11ty/eleventy",
+    "build:css": "sass src/assets/styles:_site/assets/styles --style=compressed",
+    "lint": "npm-run-all lint:*",
+    "lint:fix": "npm-run-all --parallel lint:*:fix",
+    "lint:css": "stylelint \"src/**/*.scss\"",
+    "lint:css:fix": "stylelint --fix \"src/**/*.scss\"",
+    "lint:js": "eslint --cache \"**/*.js\"",
+    "lint:js:fix": "eslint --cache --fix \"**/*.js\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@11ty/eleventy": "2.0.1",
-    "sass": "1.70.0"
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy-img": "^3.1.8",
+    "@11ty/eleventy-upgrade-help": "^2.0.5",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.4.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "sass": "^1.69.7",
+    "slugify": "^1.6.5",
+    "stylelint": "^14.10.0",
+    "stylelint-config-standard-scss": "^5.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "post-checkout": "yarn"
+    }
+  },
+  "lint-staged": {
+    "*.js": "yarn run lint:js:fix",
+    "*.scss": "yarn run lint:css:fix"
   }
 }
