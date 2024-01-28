@@ -2,7 +2,7 @@
 
 > **Note**: While this starter is MIT licensed, **please feel free to license your website differently**. The only situation where I'd ask you preserve the MIT license is if you want to create a variation/spinoff of the starter _itself_.
 
-This is an opinionated starter for [11ty](https://github.com/11ty/eleventy) that includes:
+This is an opinionated starter for [11ty](https://github.com/11ty/eleventy) that includes the following:
 
 - Pre-configured 11ty directories (input, output, data, includes, layouts) and custom filters.
 - A separate directory for 11ty-specific configs: filters, shortcodes, etc.
