@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://woojinp1994.github.io/sitemap.xml
