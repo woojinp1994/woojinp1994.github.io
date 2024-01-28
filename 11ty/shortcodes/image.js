@@ -8,7 +8,7 @@ async function imageShortcode(src, alt = '', widths = [300, 600], formats = ['av
   const metadata = await Image(src, {
     widths,
     formats,
-    // e.g., _site/assets/images/
+    // e.g., public/assets/images/
     outputDir: imagePaths.output,
     // e.g., /assets/images/name.extension
     urlPath: imageUrlPath,
