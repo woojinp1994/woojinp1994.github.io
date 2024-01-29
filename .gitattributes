@@ -1,4 +1,3 @@
-# https://www.aleksandrhovhannisyan.com/blog/crlf-vs-lf-normalizing-line-endings-in-git/
 
 # Let Git's auto-detection algorithm infer if a file is text. If it is,
 # enforce LF line endings regardless of OS or git configurations.

@@ -18,5 +18,8 @@ module.exports = {
     widths: [32, 57, 76, 96, 128, 192, 228],
     format: 'png',
   },
+  pagination: {
+    itemsPerPage: 30,
+  },
   ...environmentSpecificVariables[process.env.ELEVENTY_ENV],
 };

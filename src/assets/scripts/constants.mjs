@@ -3,4 +3,3 @@ export const copyToClipboardButtonStrings = {
     ariaLabel: 'Copy to clipboard',
     copied: 'Copied',
   };
-  
