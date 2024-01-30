@@ -9,4 +9,29 @@ permalink: /
       <p class="hero-subtitle">I'm a data professional currently looking for a new role. I've worked in education, banking,  and fintech. My passions are in competitive gaming, chef's knives, and cuisine of all kinds.</p>
     </div>
   </section>
+  <section class="stack gap-0">
+    <h2 id="recent-posts">Recent Posts</h2>
+    {%- assign recentPosts = collections.posts | limit: 6 -%}
+    {%- include "postPreviews.html" posts: recentPosts, titleLevel: 3 -%}
+  </section>
+  <section class="stack gap-0">
+    <h2 id="featured-posts">Featured Posts</h2>
+    {%- assign featuredPosts = collections.posts | where: "data.isFeatured", true -%}
+    {%- include "postPreviews.html" posts: featuredPosts, titleLevel: 3 -%}
+  </section>
 </article>
+{%- assign networks = socials | entries -%}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Person",
+  "image": "{{ openGraph.image }}",
+  "jobTitle": "Software Developer",
+  "name": "{{ site.author }}",
+  "sameAs": [
+    {%- for network in networks %}
+      "{{ network[1].url }}"{%- if forloop.last == false -%},{%- endif -%}
+    {% endfor %}
+  ]
+}
+</script>
