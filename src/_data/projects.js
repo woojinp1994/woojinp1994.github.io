@@ -5,31 +5,16 @@ const { imageShortcode } = require('../../config/shortcodes/');
 
 // Combination of static + dynamic data
 const repos = {
-  fluidTypeScale: {
-    getIcon: async () => {
-      const icon = await imageShortcode({
-        src: 'https://www.fluid-type-scale.com/assets/images/favicon-32.png',
-        alt: '',
-        isLinked: false,
-        widths: [32],
-      });
-      return icon;
-    },
-    name: 'fluid-type-scale.com',
-    url: 'https://www.fluid-type-scale.com/',
-    repo: 'AleksandrHovhannisyan/fluid-type-scale-calculator',
-    tech: ['nextjs', 'typescript', 'sass'],
-  },
-  scribe: {
-    getIcon: () => '📄',
-    name: 'Scribe',
-    repo: 'AleksandrHovhannisyan/Scribe-Text-Editor',
+  hallofgoats: {
+    getIcon: () => '🐐',
+    name: 'Hall of GOATs',
+    repo: 'woojinp1994/hall_of_goats',
     tech: ['c++', 'qt5', 'qtcreator'],
   },
-  usGunCrimes: {
-    getIcon: () => '⚖️',
-    name: 'U.S. Gun Crimes',
-    repo: 'CIS4301-Project-University-of-Florida/U.S.-Gun-Crime',
+  grody: {
+    getIcon: () => '🧺',
+    name: 'Grody Bot',
+    repo: 'woojinp1994/discord_grody',
     tech: ['react', 'typescript', 'express', 'sql'],
   },
   blog: {
@@ -43,13 +28,13 @@ const repos = {
       return icon;
     },
     name: 'This website!',
-    repo: 'AleksandrHovhannisyan/aleksandrhovhannisyan.com',
+    repo: 'woojinp1994/woojinp1994.github.io',
     tech: ['11ty', 'sass', 'javascript'],
   },
-  embody: {
-    getIcon: () => '👻',
-    name: 'Embody',
-    repo: 'cap4053-cheeky-pixels/EmbodyGame',
+  detools: {
+    getIcon: () => '🔧',
+    name: 'Data Engineering Tools',
+    repo: 'woojinp1994/de_learning',
     tech: ['c#', 'unity', 'game-ai'],
   },
 };
