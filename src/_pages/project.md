@@ -5,7 +5,6 @@ permalink: /projects/
 layout: project
 lastUpdated: 2024-02-08
 ---
-## Software Projects
 
 See below for a few projects I've been working on.
 

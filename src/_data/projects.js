@@ -9,13 +9,13 @@ const repos = {
     getIcon: () => '🐐',
     name: 'Hall of GOATs',
     repo: 'woojinp1994/hall_of_goats',
-    tech: ['c++', 'qt5', 'qtcreator'],
+    tech: ['python', 'spark', 'docker', 'postgresql'],
   },
   grody: {
     getIcon: () => '🧺',
     name: 'Grody Bot',
     repo: 'woojinp1994/discord_grody',
-    tech: ['react', 'typescript', 'express', 'sql'],
+    tech: ['python', 'nosql'],
   },
   blog: {
     getIcon: async () => {
@@ -35,7 +35,7 @@ const repos = {
     getIcon: () => '🔧',
     name: 'Data Engineering Tools',
     repo: 'woojinp1994/de_learning',
-    tech: ['c#', 'unity', 'game-ai'],
+    tech: ['python', 'spark', 'mage', 'google cloud'],
   },
 };
 
