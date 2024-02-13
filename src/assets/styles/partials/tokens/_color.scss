@@ -37,20 +37,20 @@
 html {
   --color-text-link: inherit;
 
-  // Light theme, assumed to be default
+  // Dark theme, assumed to be default
   &,
   &[data-theme="dark"] {
     @include colors-dark;
   }
 
-  // Dark theme
+  // Light theme
   &[data-theme="light"] {
     @include colors-light;
   }
 
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: light) {
     &:not([data-theme]) {
-      @include colors-dark;
+      @include colors-light;
     }
   }
 }

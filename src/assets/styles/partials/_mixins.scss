@@ -95,17 +95,17 @@
 // Theme blocks
 
 // Light theme is treated as default, hence & selector
-@mixin theme-light {
-  &,
-  html[data-theme="light"] & {
-    @content;
-  }
-}
 @mixin theme-dark {
+  &,
   html[data-theme="dark"] & {
     @content;
   }
-  @media (prefers-color-scheme: dark) {
+}
+@mixin theme-light {
+  html[data-theme="light"] & {
+    @content;
+  }
+  @media (prefers-color-scheme: light) {
     html:not([data-theme]) & {
       @content;
     }
