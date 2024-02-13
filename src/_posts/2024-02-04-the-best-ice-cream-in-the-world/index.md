@@ -3,6 +3,7 @@ title: The best ice cream shop in the world. Seriously.
 description: We visited Ampersand Ice Cream in Fresno. Again.
 keywords: [ice cream, ampersand, science]
 categories: [food, science, review, gem]
+isFeatured: true
 ---
 
 We have a tradition.

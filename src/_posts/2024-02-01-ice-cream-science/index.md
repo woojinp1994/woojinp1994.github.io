@@ -3,6 +3,7 @@ title: The Sweet Science Behind Ice Cream
 description: Learn how ice cream works. What makes it so good?
 keywords: [ice cream, science]
 categories: [food, science, gastronomy]
+isFeatured: true
 ---
 
 Ice cream, the beloved frozen treat enjoyed by millions worldwide, is not merely a simple mixture of cream and sugar. It's easy to overlook the work and science that goes into crafting this frozen treat. Ice cream may seem simple, but it's more than just frozen milk fat. Ice cream, to put it simply, is a delicate dance of ingredients and processes, orchestrated by the principles of culinary science. 
