@@ -2,9 +2,6 @@
 @use "../mixins";
 
 .card {
-  @include mixins.theme-light {
-    --color-card-bg: var(--color-surface-1);
-  }
 
   @include mixins.theme-dark {
     --color-card-bg: var(--color-surface-2);

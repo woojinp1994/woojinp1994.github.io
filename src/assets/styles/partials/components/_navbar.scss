@@ -9,11 +9,6 @@
 }
 
 .navbar {
-  @include mixins.theme-light {
-    --color-navbar-bg: var(--color-surface-8);
-    --color-navbar-bg-focus: var(--color-surface-7);
-  }
-
   @include mixins.theme-dark {
     --color-navbar-bg: var(--color-surface-2);
     --color-navbar-bg-focus: var(--color-surface-3);

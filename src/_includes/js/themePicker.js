@@ -1,7 +1,7 @@
 // Since this script gets put in the <head>, wrap it in an IIFE to avoid exposing variables
 (function () {
   // Enum of supported themes. Not strictly needed; just helps avoid typos and magic strings.
-  const Theme = { AUTO: 'auto', LIGHT: 'light', DARK: 'dark' };
+  const Theme = { AUTO: 'auto', DARK: 'dark' };
   // We'll use this to write and read to localStorage and save the theme as a data- attribute
   const THEME_STORAGE_KEY = 'theme';
   // :root will own the data- attribute for the current theme override; it is the only eligible theme owner when this script is parsed in <head>

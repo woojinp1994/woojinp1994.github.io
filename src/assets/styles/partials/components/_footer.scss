@@ -2,10 +2,6 @@
 @use "../mixins";
 
 .page-footer {
-  @include mixins.theme-light {
-    --color-footer-bg: var(--color-surface-8);
-  }
-
   @include mixins.theme-dark {
     --color-footer-bg: var(--color-surface-2);
   }

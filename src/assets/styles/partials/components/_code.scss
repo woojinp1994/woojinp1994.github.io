@@ -3,9 +3,6 @@
 
 // Inline code and kbd
 :is(code, kbd):not([class^="language-"]) {
-  @include mixins.theme-light {
-    --color-inline-code-bg: var(--color-surface-2);
-  }
 
   @include mixins.theme-dark {
     --color-inline-code-bg: var(--color-surface-3);
