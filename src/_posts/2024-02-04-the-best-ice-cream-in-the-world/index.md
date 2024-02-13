@@ -1,6 +1,6 @@
 ---
 title: The best ice cream in the world. Seriously.
-description: This is my website's first post.
+description: We visited Ampersand Ice Cream in Fresno.
 keywords: [ice cream, ampersand, science]
 categories: [food, science, review]
 ---
