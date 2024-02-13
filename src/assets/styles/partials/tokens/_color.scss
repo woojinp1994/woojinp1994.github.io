@@ -39,13 +39,13 @@ html {
 
   // Light theme, assumed to be default
   &,
-  &[data-theme="light"] {
-    @include colors-light;
+  &[data-theme="dark"] {
+    @include colors-dark;
   }
 
   // Dark theme
-  &[data-theme="dark"] {
-    @include colors-dark;
+  &[data-theme="light"] {
+    @include colors-light;
   }
 
   @media (prefers-color-scheme: dark) {
