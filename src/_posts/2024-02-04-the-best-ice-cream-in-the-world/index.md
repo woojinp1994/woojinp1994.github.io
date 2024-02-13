@@ -51,7 +51,7 @@ It's surprisingly hard to find a shop that consistently rotates out their season
 
 Ampersand changes out their 7-10 seasonal flavors **every month**. Not every season, but every month. That's crazy!
 
-{% include "postImage.html" src: "./images/flavors-ampersand.png", alt: "June flavors from 2023." %}
+{% include "postImage.html" src: "./images/flavors-ampersand.jpg", alt: "June flavors from 2023." %}
 
 Most of these are made with locally sourced ingredients at the peak of their season. A lot of these flavors are also super exciting and delicious, with my favorites being the blueberry honey, sweet corn, earl grey & cardamom, and warm cookies. A big part of the fun is coming on a new month, checking out the awesome new flavors, and picking out our favorites for the rotation.
 
