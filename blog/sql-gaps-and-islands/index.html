@@ -67,6 +67,8 @@
   </header>
   <div class="rhythm">
     <p>If there’s one conundrum that I always run into when working with SQL, it’s gaps and islands.</p>
+<p>The “gaps and islands” issue involves identifying continuous data groups (“islands”) and areas where data is absent (“gaps”) within a sequence. While it may seem obscure initially, mastering solutions to this problem is crucial for proficient SQL users. These data breakpoints signify significant business events like peak sales periods or highlight missing data.</p>
+<h2 id="a-digital-example"><a class="to-underline" href="#a-digital-example">A Digital Example</a></h2>
 <p>In the world of data analysis, accurately interpreting user behavior is crucial for making informed decisions. However, the data we work with, no matter how clean or documented, can naturally be limited by the nature of the format it exists in. For example, consider the following dataset:</p>
 <div class="scroll-x">
     <table id="table-1">
@@ -133,6 +135,169 @@
     </table>
 </div>
 <p>This dataset includes four users, each with a variety of session patterns including overlapping sessions, continuous usage without gaps, and minimal, sporadic usage. A user may have more than one session open at a time, or they may not have one open at all. With the data that we have in its current format, we could figure out how long an average session is, but it couldn’t tell us things like how long a user is online at a time, or how long periods of inactivity are before they return.</p>
+<p>Gaps and islands are pretty common in different datasets and they can show up in various ways. Sometimes, you’ll find them in sequences represented by numbers, like what you’d see in typical databases. When you’re trying to deal with these gaps, it’s often about figuring out which records got deleted from the sequence.</p>
+<p>Our example exhibits the issues with time-based data, i.e. you’re trying to figure out when things were active or not.
+Figuring out where the islands and gaps like can make or break historical data models working with event-level data built into a warehouse or pipeline.</p>
+<p>Note:  To work with this data in PostgreSQL, you can use the following SQL query to create a table and insert the data:</p>
+<pre class="language-sql"><code tabindex="0" class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> user_sessions <span class="token punctuation">(</span>
+    User_ID <span class="token keyword">INT</span><span class="token punctuation">,</span>
+    Session_Start <span class="token keyword">TIMESTAMP</span><span class="token punctuation">,</span>
+    Session_End <span class="token keyword">TIMESTAMP</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> user_sessions <span class="token punctuation">(</span>User_ID<span class="token punctuation">,</span> Session_Start<span class="token punctuation">,</span> Session_End<span class="token punctuation">)</span> <span class="token keyword">VALUES</span>
+<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 08:00:00'</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 09:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 08:30:00'</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 09:30:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 10:00:00'</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 11:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 09:00:00'</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 10:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 09:30:00'</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 11:30:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 10:00:00'</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 12:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 11:30:00'</span><span class="token punctuation">,</span> <span class="token string">'2024-02-01 13:30:00'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="the-sql-query"><a class="to-underline" href="#the-sql-query">The SQL Query</a></h2>
+<p>To analyze this data in the way that we want to, we have to transform it first. We’ll need a SQL query that can identify both islands (continuous session periods) and gaps (periods of inactivity). This query involves several steps, including using window functions to determine session boundaries and gaps between sessions.</p>
+<p>Below is a PostgreSQL query that demonstrates how to identify islands and gaps for each user. The query focuses on generating a comprehensive view of user activity, categorizing each period as either an “Island” (active session) or a “Gap” (inactive period).</p>
+<pre class="language-sql"><code tabindex="0" class="language-sql"><span class="token keyword">WITH</span> ranked_sessions <span class="token keyword">AS</span> <span class="token punctuation">(</span>
+    <span class="token keyword">SELECT</span>
+        User_ID<span class="token punctuation">,</span>
+        Session_Start<span class="token punctuation">,</span>
+        Session_End<span class="token punctuation">,</span>
+        LAG<span class="token punctuation">(</span>Session_End<span class="token punctuation">)</span> <span class="token keyword">OVER</span><span class="token punctuation">(</span><span class="token keyword">PARTITION</span> <span class="token keyword">BY</span> User_ID <span class="token keyword">ORDER</span> <span class="token keyword">BY</span> Session_Start<span class="token punctuation">)</span> <span class="token keyword">AS</span> Previous_Session_End<span class="token punctuation">,</span>
+        LEAD<span class="token punctuation">(</span>Session_Start<span class="token punctuation">)</span> <span class="token keyword">OVER</span><span class="token punctuation">(</span><span class="token keyword">PARTITION</span> <span class="token keyword">BY</span> User_ID <span class="token keyword">ORDER</span> <span class="token keyword">BY</span> Session_Start<span class="token punctuation">)</span> <span class="token keyword">AS</span> Next_Session_Start
+    <span class="token keyword">FROM</span> user_sessions
+<span class="token punctuation">)</span><span class="token punctuation">,</span>
+islands <span class="token keyword">AS</span> <span class="token punctuation">(</span>
+    <span class="token keyword">SELECT</span>
+        User_ID<span class="token punctuation">,</span>
+        Session_Start<span class="token punctuation">,</span>
+        Session_End<span class="token punctuation">,</span>
+        <span class="token keyword">CASE</span>
+            <span class="token keyword">WHEN</span> Previous_Session_End <span class="token operator">IS</span> <span class="token boolean">NULL</span> <span class="token operator">OR</span> Session_Start <span class="token operator">></span> Previous_Session_End <span class="token keyword">THEN</span> <span class="token string">'Island'</span>
+            <span class="token keyword">ELSE</span> <span class="token string">'Overlap'</span> <span class="token keyword">END</span> <span class="token keyword">AS</span> Session_Type
+    <span class="token keyword">FROM</span> ranked_sessions
+<span class="token punctuation">)</span><span class="token punctuation">,</span>
+gaps <span class="token keyword">AS</span> <span class="token punctuation">(</span>
+    <span class="token keyword">SELECT</span>
+        User_ID<span class="token punctuation">,</span>
+        Previous_Session_End <span class="token keyword">AS</span> Gap_Start<span class="token punctuation">,</span>
+        Session_Start <span class="token keyword">AS</span> Gap_End
+    <span class="token keyword">FROM</span> ranked_sessions
+    <span class="token keyword">WHERE</span> Previous_Session_End <span class="token operator">IS</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token operator">AND</span> Session_Start <span class="token operator">></span> Previous_Session_End
+<span class="token punctuation">)</span><span class="token punctuation">,</span>
+combined <span class="token keyword">AS</span> <span class="token punctuation">(</span>
+    <span class="token keyword">SELECT</span>
+        User_ID<span class="token punctuation">,</span>
+        Session_Start <span class="token keyword">AS</span> Start_Time<span class="token punctuation">,</span>
+        Session_End <span class="token keyword">AS</span> End_Time<span class="token punctuation">,</span>
+        <span class="token string">'Island'</span> <span class="token keyword">AS</span> <span class="token keyword">Type</span>
+    <span class="token keyword">FROM</span> islands
+    <span class="token keyword">WHERE</span> Session_Type <span class="token operator">=</span> <span class="token string">'Island'</span>
+    <span class="token keyword">UNION</span> <span class="token keyword">ALL</span>
+    <span class="token keyword">SELECT</span>
+        User_ID<span class="token punctuation">,</span>
+        Gap_Start <span class="token keyword">AS</span> Start_Time<span class="token punctuation">,</span>
+        Gap_End <span class="token keyword">AS</span> End_Time<span class="token punctuation">,</span>
+        <span class="token string">'Gap'</span> <span class="token keyword">AS</span> <span class="token keyword">Type</span>
+    <span class="token keyword">FROM</span> gaps
+<span class="token punctuation">)</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> combined
+<span class="token keyword">ORDER</span> <span class="token keyword">BY</span> User_ID<span class="token punctuation">,</span> Start_Time<span class="token punctuation">;</span>
+</code></pre>
+<p>This query first identifies the start and end times of each user’s sessions, then determines whether each session represents an island or is part of an overlapping period. Gaps are identified by comparing the end time of one session with the start time of the next session for each user.</p>
+<p>The output would be as follows:</p>
+<div class="scroll-x">
+    <table id="table-1">
+    <caption>Table 1: Dataset that tracks active user sessions.</caption>
+        <thead>
+            <tr>
+                <th scope="col">User_ID</th>
+                <th scope="col" class="numeric">Start_Time</th>
+                <th scope="col" class="numeric">End_Time</th>
+                <th scope="col" class="numeric">Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td class="datetime" data-datetime="2024-02-01 08:00:00">2024-02-01 08:00:00</td>
+                <td class="datetime" data-datetime="2024-02-01 11:00:00">2024-02-01 11:00:00</td>
+                <td>Island</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td class="datetime" data-datetime="2024-02-01 11:00:00">2024-02-01 11:00:00</td>
+                <td class="datetime" data-datetime="2024-02-02 08:00:00">2024-02-02 08:00:00</td>
+                <td>Gap</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td class="datetime" data-datetime="2024-02-02 08:00:00">2024-02-02 08:00:00</td>
+                <td class="datetime" data-datetime="2024-02-02 09:00:00">2024-02-02 09:00:00</td>
+                <td>Island</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td class="datetime" data-datetime="2024-02-01 09:00:00">2024-02-01 09:00:00</td>
+                <td class="datetime" data-datetime="2024-02-01 11:30:00">2024-02-01 11:30:00</td>
+                <td>Island</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td class="datetime" data-datetime="2024-02-01 11:30:00">2024-02-01 11:30:00</td>
+                <td class="datetime" data-datetime="2024-02-03 09:00:00">2024-02-03 09:00:00</td>
+                <td>Gap</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td class="datetime" data-datetime="2024-02-03 09:00:00">2024-02-03 09:00:00</td>
+                <td class="datetime" data-datetime="2024-02-03 10:00:00">2024-02-03 10:00:00</td>
+                <td>Island</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td class="datetime" data-datetime="2024-02-01 10:00:00">2024-02-01 10:00:00</td>
+                <td class="datetime" data-datetime="2024-02-05 10:00:00">2024-02-05 10:00:00</td>
+                <td>Island</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td class="datetime" data-datetime="2024-02-02 12:00:00">2024-02-02 12:00:00</td>
+                <td class="datetime" data-datetime="2024-02-02 12:30:00">2024-02-02 12:30:00</td>
+                <td>Island</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td class="datetime" data-datetime="2024-02-02 12:30:00">2024-02-02 12:30:00</td>
+                <td class="datetime" data-datetime="2024-02-03 15:00:00">2024-02-03 15:00:00</td>
+                <td>Gap</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td class="datetime" data-datetime="2024-02-03 15:00:00">2024-02-03 15:00:00</td>
+                <td class="datetime" data-datetime="2024-02-03 15:30:00">2024-02-03 15:30:00</td>
+                <td>Island</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<h2 id="analytics-and-implications"><a class="to-underline" href="#analytics-and-implications">Analytics and Implications</a></h2>
+<p>The output from our SQL query offers a detailed view of how users interact with the platform over time. Here are some quick insights drawn from the hypothetical results:</p>
+<p>User 1 displays a pattern of frequent, overlapping sessions with a significant gap, indicating regular but interrupted usage.
+User 2 shows both continuous activity on specific days and significant inactivity, suggesting episodic engagement.
+User 3’s continuous long-term session indicates a deep, uninterrupted engagement with the platform.
+User 4 represents a user with minimal and sporadic engagement, characterized by short sessions and long gaps.</p>
+<p>So what kind of strategies can we derive from this analysis?</p>
+<ul>
+<li>
+<p>Customized Engagement: For users like User 1, timely re-engagement strategies can be designed to minimize gaps.</p>
+</li>
+<li>
+<p>Feature Promotion: The continuous engagement of users like User 3 might be leveraged to promote premium features or extended sessions.</p>
+</li>
+<li>
+<p>User Support: Identifying patterns like those of User 4 could indicate users struggling to engage, highlighting opportunities for targeted support or user education.</p>
+</li>
+</ul>
 </div>
 </article>
 <script type="application/ld+json">
