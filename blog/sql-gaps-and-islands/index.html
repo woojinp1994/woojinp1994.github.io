@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="utf-8"><title>Common SQL Conundrums - Gaps and Islands | Woojin Park</title>
+  <meta name="description" content="Gaps and Islands can cause some serious issues during data analysis. Learn how to identify and resolve them.">
+  <meta name="keywords" content="sql, gaps and islands, olap, data">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Woojin Park">
+  <link rel="canonical" href="https://woojinp1994.github.io/blog/sql-gaps-and-islands/"><style>@font-face{font-family:body-fallback;src:local('Times New Roman');ascent-override:93.5808%;descent-override:25.7595%;size-adjust:111.0271%}@font-face{font-family:Roboto;font-style:normal;font-weight:400;font-display:swap;src:local("Roboto-Regular"),url("/assets/fonts/roboto-latin-400-roman.woff2") format("woff2")}@font-face{font-family:Roboto;font-style:italic;font-weight:400;font-display:swap;src:local("Roboto-Italic"),url("/assets/fonts/roboto-latin-400-italic.woff2") format("woff2")}@font-face{font-family:Roboto;font-style:normal;font-weight:700;font-display:swap;src:local("Roboto-Bold"),url("/assets/fonts/roboto-latin-700-roman.woff2") format("woff2")}@font-face{font-family:Roboto;font-style:italic;font-weight:700;font-display:swap;src:local("Roboto-BoldItalic"),url("/assets/fonts/roboto-latin-700-italic.woff2") format("woff2")}@font-face{font-family:"Source Code Pro";font-style:normal;font-weight:100 900;font-display:swap;src:local("SourceCodeVF"),url("/assets/fonts/sourcecode-latin-roman-variable.woff2") format("woff2 supports variations"),url("/assets/fonts/sourcecode-latin-roman-variable.woff2") format("woff2-variations")}html{--font-family-body:Roboto,body-fallback;--font-weight-body-regular:400;--font-weight-body-bold:700;--font-family-mono:Source Code Pro,Monaco,Consolas,Courier New,monospace;--font-weight-mono-regular:400;--font-weight-mono-bold:700}body{font-family:var(--font-family-body);font-weight:var(--font-weight-body-regular)}code{font-family:var(--font-family-mono)}</style><link rel="stylesheet" href="/assets/styles/main.css"><link href="/assets/images/favicons/favicon-16.png" rel="icon" sizes="16x16">
+<link href="/assets/images/favicons/favicon-32.png" rel="icon" sizes="32x32">
+<link href="/assets/images/favicons/favicon-57.png" rel="icon" sizes="57x57">
+<link href="/assets/images/favicons/favicon-76.png" rel="icon" sizes="76x76">
+<link href="/assets/images/favicons/favicon-96.png" rel="icon" sizes="96x96">
+<link href="/assets/images/favicons/favicon-128.png" rel="icon" sizes="128x128">
+<link href="/assets/images/favicons/favicon-180.png" rel="apple-touch-icon">
+<link href="/assets/images/favicons/favicon-192.png" rel="icon" sizes="192x192">
+<link href="/assets/images/favicons/favicon-228.png" rel="icon" sizes="228x228"><script>(function(){const a={AUTO:"auto",DARK:"dark"},e="theme",c=document.documentElement,n=localStorage.getItem(e);n&&(c.dataset[e]=n),document.addEventListener("DOMContentLoaded",()=>{const t=document.getElementById("theme-picker");if(!t)return;t.addEventListener("change",r=>{const o=r.target.value;o===a.AUTO?(delete c.dataset[e],localStorage.removeItem(e)):(c.dataset[e]=o,localStorage.setItem(e,o))});const d=n??a.AUTO;t.querySelector("input[checked]").removeAttribute("checked"),t.querySelector(`input[value="${d}"]`).setAttribute("checked","")})})();
+</script><script src="/assets/scripts/index.mjs" type="module"></script><meta property="og:title" content="Common SQL Conundrums - Gaps and Islands | Woojin Park"><meta property="og:description" content="Gaps and Islands can cause some serious issues during data analysis. Learn how to identify and resolve them.">
+  <meta property="og:url" content="https://woojinp1994.github.io/blog/sql-gaps-and-islands/">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content=""><meta name="twitter:card" content="summary">
+  <meta name="twitter:creator" content="@">
+  <meta name="twitter:title" content="Common SQL Conundrums - Gaps and Islands | Woojin Park">
+  <meta name="twitter:description" content="Gaps and Islands can cause some serious issues during data analysis. Learn how to identify and resolve them.">
+      <link rel="preload" as="style" type="text/css" href="/assets/styles/main.css" >
+      <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/roboto-latin-400-roman.woff2" crossorigin>
+      <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/roboto-latin-700-roman.woff2" crossorigin>
+      <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/sourcecode-latin-roman-variable.woff2" crossorigin><link rel="alternate" type="application/rss+xml" title="RSS Feed for woojinpark.com" href="/feed.xml"><noscript><style>#theme-picker-root,.youtube-embed{display:none;}</style></noscript><meta name="generator" content="Eleventy v2.0.1"></head>
+<body>
+  <header class="navbar">
+  <div class="navbar-container container">
+    <nav aria-label="Primary">
+      <a href="#page-content" class="screen-reader-only skip-navigation">Skip to content</a>
+      <ul class="navbar-links">
+        <li>
+          <a class="navbar-link-home" href="/" >
+            <span class="site-name">Woojin Park</span>
+          </a>
+        </li><li><a
+            href="/about/"
+            class="navbar-link"
+            >About</a>
+        </li><li><a
+            href="/projects/"
+            class="navbar-link"
+            >Projects</a>
+        </li><li><a
+            href="/blog/"
+            class="navbar-link"
+            >Blog</a>
+        </li></ul>
+    </nav>
+  </div>
+</header><main id="page-content" class="container">
+  
+<article class="post prose rhythm">
+  <header class="post-header">
+    <p class="post-date"><span class="screen-reader-only">Published </span><time datetime="2024-02-07" >February 07, 2024</time> &bull; Updated <time datetime="2024-02-07" >February 07, 2024</time></p>
+    <h1 class="post-title">Common SQL Conundrums - Gaps and Islands</h1>
+    <ul class="post-tags" aria-label="Tags"><li>
+          <a href="/tags/sql/" class="post-tag" aria-label="sql">sql</a>
+        </li><li>
+          <a href="/tags/data/" class="post-tag" aria-label="data">data</a>
+        </li><li>
+          <a href="/tags/programming/" class="post-tag" aria-label="programming">programming</a>
+        </li></ul>
+  </header>
+  <div class="rhythm">
+    <p>If there’s one conundrum that I always run into when working with SQL, it’s gaps and islands.</p>
+<p>In the world of data analysis, accurately interpreting user behavior is crucial for making informed decisions. However, the data we work with, no matter how clean or documented, can naturally be limited by the nature of the format it exists in. For example, consider the following dataset:</p>
+<div class="scroll-x">
+    <table id="table-1">
+    <caption>Table 1: Dataset that tracks active user sessions.</caption>
+        <thead>
+            <tr>
+                <th scope="col">User_ID</th>
+                <th scope="col" class="numeric">Session_Start</th>
+                <th scope="col" class="numeric">Session_End</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td class="numeric">2024-02-01 08:00:00</td>
+                <td class="numeric">2024-02-01 09:00:00</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td class="numeric">2024-02-01 08:30:00</td>
+                <td class="numeric">2024-02-01 09:30:00</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td class="numeric">2024-02-01 10:00:00</td>
+                <td class="numeric">2024-02-01 11:00:00</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td class="numeric">2024-02-02 08:00:00</td>
+                <td class="numeric">2024-02-02 09:00:00</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td class="numeric">2024-02-01 09:00:00</td>
+                <td class="numeric">2024-02-01 10:00:00</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td class="numeric">2024-02-01 09:30:00</td>
+                <td class="numeric">2024-02-01 11:30:00</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td class="numeric">2024-02-03 09:00:00</td>
+                <td class="numeric">2024-02-03 10:00:00</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td class="numeric">2024-02-01 10:00:00</td>
+                <td class="numeric">2024-02-05 10:00:00</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td class="numeric">2024-02-02 12:00:00</td>
+                <td class="numeric">2024-02-02 12:30:00</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td class="numeric">2024-02-03 15:00:00</td>
+                <td class="numeric">2024-02-03 15:30:00</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p>This dataset includes four users, each with a variety of session patterns including overlapping sessions, continuous usage without gaps, and minimal, sporadic usage. A user may have more than one session open at a time, or they may not have one open at all. With the data that we have in its current format, we could figure out how long an average session is, but it couldn’t tell us things like how long a user is online at a time, or how long periods of inactivity are before they return.</p>
+</div>
+</article>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://woojinp1994.github.io/blog/sql-gaps-and-islands/"
+    },
+    "headline": "Common SQL Conundrums - Gaps and Islands",
+    "description": "Gaps and Islands can cause some serious issues during data analysis. Learn how to identify and resolve them.",
+    
+    "datePublished": "2024-02-07T00:00:00.000Z",
+    "dateModified": "2024-02-07T00:00:00.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Woojin Park"
+    }
+  }
+</script>
+
+</main><footer class="page-footer size-font-sm">
+  <div class="page-footer-container container">
+    <div class="stack gap--1">
+      <h2 class="size-font-xl">Got questions?</h2>
+      <p>Reach me at woojinp1994 [at] gmail.com</p>
+    </div>
+    <div class="stack gap--1 page-footer-end">
+      <ul class="page-footer-socials"><li>
+          <a href="https://github.com/woojinp1994" target="_blank" rel="noreferrer noopener" class="outline-offset to-underline">
+            GitHub
+          </a>
+        </li><li>
+          <a href="https://www.linkedin.com/in/w-park/" target="_blank" rel="noreferrer noopener" class="outline-offset to-underline">
+            LinkedIn
+          </a>
+        </li><li>
+          <a href="/sitemap.xml" class="outline-offset to-underline">
+            Sitemap
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
