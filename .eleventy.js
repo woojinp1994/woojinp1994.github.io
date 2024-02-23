@@ -50,6 +50,7 @@ module.exports = (eleventyConfig) => {
     dynamicPartials: true,
   });
 
+  
   // Watch targets
   eleventyConfig.addWatchTarget(imagePaths.input);
   eleventyConfig.addWatchTarget(scriptDirs.input);
@@ -59,6 +60,7 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addPassthroughCopy(path.join(dir.input, dir.assets, 'fonts'));
   eleventyConfig.addPassthroughCopy(path.join(dir.input, dir.assets, 'videos'));
   eleventyConfig.addPassthroughCopy(path.join(imagePaths.input, 'art'));
+  eleventyConfig.addPassthroughCopy("CNAME");
 
   // Custom shortcodes
   eleventyConfig.addPairedShortcode('aside', asideShortcode);
