@@ -13,7 +13,7 @@
     "build": "run-s build:deploy build:html build:css",
     "build:html": "cross-env ELEVENTY_ENV=production npx @11ty/eleventy",
     "build:css": "sass src/assets/styles:public/assets/styles --style=compressed",
-    "build:deploy": "echo www.woojinpark.com > ./build/CNAME",
+    "build:deploy": "echo www.woojinpark.com > public/CNAME",
     "lint": "npm-run-all lint:*",
     "lint:fix": "npm-run-all --parallel lint:*:fix",
     "lint:css": "stylelint \"src/**/*.scss\"",
