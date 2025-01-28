@@ -11,23 +11,25 @@ specs:
   handle: Walnut
   length: 8 inches
 ---
-<div class="knife-carousel">
-  {% for image in page.images %}
-  <img src="{{ image }}" alt="{{ page.title }}">
-  {% endfor %}
+
+<div id="carousel" class="knife-carousel">
+  <div role="region" tabindex="0">
+    <div role="list">
+      {% for image in page.images %}
+        <div role="listitem">
+          {% include "postImage.html" 
+            src=image
+            alt=title
+          %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 
-<h1>{{ title }}</h1>
-
-<div class="knife-specs">
-  <h2>Specifications</h2>
-  <ul>
-    <li>Steel: {{ specs.steel }}</li>
-    <li>Handle: {{ specs.handle }}</li>
-    <li>Length: {{ specs.length }}</li>
-  </ul>
-</div>
-
-<div class="knife-description">
-  <!-- Add knife description here -->
-</div>
+<template id="carousel-controls">
+  <div class="carousel-controls">
+    <button type="button" data-direction="start">Previous</button>
+    <button type="button" data-direction="end">Next</button>
+  </div>
+</template>
