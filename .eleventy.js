@@ -102,8 +102,8 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addCollection('posts', getAllPosts);
   eleventyConfig.addCollection('categories', getAllUniqueCategories);
   eleventyConfig.addCollection('postsByCategory', getPostsByCategory);
-  eleventyConfig.addCollection("knives", function(collection) {
-    return collection.getFilteredByGlob("src/gallery/knives/*.md");
+  eleventyConfig.addCollection("knives", function(collectionApi) {
+    return collectionApi.getFilteredByGlob("src/_gallery/knives/*/index.md");
   });
   // Plugins
   eleventyConfig.addPlugin(PluginFootnotes, {
