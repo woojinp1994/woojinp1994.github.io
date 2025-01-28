@@ -12,8 +12,8 @@ specs:
   length: 8 inches
 ---
 <div class="knife-carousel">
-  {% for image in images %}
-  <img src="{{ image }}" alt="{{ title }}">
+  {% for image in page.images %}
+  <img src="{{ image }}" alt="{{ page.title }}">
   {% endfor %}
 </div>
 
