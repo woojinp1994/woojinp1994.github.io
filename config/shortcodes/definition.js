@@ -1,4 +1,4 @@
-const { markdown }= require('../plugins/markdown');
+const { markdown } = require('../plugins/markdown');
 
 /** Renders a blockquote with a <dfn> and a corresponding definition */
 const definition = (children, term) => {

@@ -1,9 +1,6 @@
 @use "../mixins";
 
 .hero {
-
-
-  
   &-title {
     @include mixins.font($size: "4xl");
   }

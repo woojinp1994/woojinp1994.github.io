@@ -6,45 +6,45 @@ const { getFontUrl } = require('../../config/fonts/fonts.utils');
  * @type {import("../../types/fonts.typedefs").FontConfig}
  */
 const fonts = {
-    body: {
-      type: 'static',
-      family: 'Roboto',
-      fallbacks: [`body-fallback`],
-      variants: {
-        [FontVariant.REGULAR]: {
-          roman: {
-            weight: 400,
-            style: FontStyle.NORMAL,
-            url: getFontUrl('roboto-latin-400-roman.woff2'),
-            postscriptName: `Roboto-Regular`,
-            display: FontDisplay.SWAP,
-          },
-          italic: {
-            weight: 400,
-            style: FontStyle.ITALIC,
-            url: getFontUrl('roboto-latin-400-italic.woff2'),
-            postscriptName: `Roboto-Italic`,
-            display: FontDisplay.SWAP,
-          },
+  body: {
+    type: 'static',
+    family: 'Roboto',
+    fallbacks: [`body-fallback`],
+    variants: {
+      [FontVariant.REGULAR]: {
+        roman: {
+          weight: 400,
+          style: FontStyle.NORMAL,
+          url: getFontUrl('roboto-latin-400-roman.woff2'),
+          postscriptName: `Roboto-Regular`,
+          display: FontDisplay.SWAP,
         },
-        [FontVariant.BOLD]: {
-          roman: {
-            weight: 700,
-            style: FontStyle.NORMAL,
-            url: getFontUrl('roboto-latin-700-roman.woff2'),
-            postscriptName: `Roboto-Bold`,
-            display: FontDisplay.SWAP,
-          },
-          italic: {
-            weight: 700,
-            style: FontStyle.ITALIC,
-            url: getFontUrl('roboto-latin-700-italic.woff2'),
-            postscriptName: `Roboto-BoldItalic`,
-            display: FontDisplay.SWAP,
-          },
+        italic: {
+          weight: 400,
+          style: FontStyle.ITALIC,
+          url: getFontUrl('roboto-latin-400-italic.woff2'),
+          postscriptName: `Roboto-Italic`,
+          display: FontDisplay.SWAP,
+        },
+      },
+      [FontVariant.BOLD]: {
+        roman: {
+          weight: 700,
+          style: FontStyle.NORMAL,
+          url: getFontUrl('roboto-latin-700-roman.woff2'),
+          postscriptName: `Roboto-Bold`,
+          display: FontDisplay.SWAP,
+        },
+        italic: {
+          weight: 700,
+          style: FontStyle.ITALIC,
+          url: getFontUrl('roboto-latin-700-italic.woff2'),
+          postscriptName: `Roboto-BoldItalic`,
+          display: FontDisplay.SWAP,
         },
       },
     },
+  },
   mono: {
     type: 'variable',
     family: 'Source Code Pro',

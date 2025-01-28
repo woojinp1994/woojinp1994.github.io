@@ -1,19 +1,20 @@
 @mixin colors-dark() {
-    color-scheme: dark;
-    --color-surface-1: hsl(0deg 0% 15%);
-    --color-surface-2: hsl(0deg 0% 25%);
-    --color-surface-3: hsl(0deg 0% 30%);
-    --color-surface-4: hsl(0deg 0% 40%);
-    --color-surface-5: hsl(0deg 0% 50%);
-    --color-surface-6: hsl(0deg 0% 60%);
-    --color-surface-7: hsl(0deg 0% 70%);
-    --color-surface-8: hsl(0deg 0% 87%);
-    --color-text-normal: var(--color-surface-8);
-    --color-text-soft: var(--color-surface-7);
-    --color-text-emphasis: white;
-    --color-text-inverted: black;
-    --color-border: var(--color-surface-5);
-    --color-scrollbar-thumb: var(--color-surface-5);
+  color-scheme: dark;
+
+  --color-surface-1: hsl(0deg 0% 15%);
+  --color-surface-2: hsl(0deg 0% 25%);
+  --color-surface-3: hsl(0deg 0% 30%);
+  --color-surface-4: hsl(0deg 0% 40%);
+  --color-surface-5: hsl(0deg 0% 50%);
+  --color-surface-6: hsl(0deg 0% 60%);
+  --color-surface-7: hsl(0deg 0% 70%);
+  --color-surface-8: hsl(0deg 0% 87%);
+  --color-text-normal: var(--color-surface-8);
+  --color-text-soft: var(--color-surface-7);
+  --color-text-emphasis: white;
+  --color-text-inverted: black;
+  --color-border: var(--color-surface-5);
+  --color-scrollbar-thumb: var(--color-surface-5);
 }
 
 html {
@@ -24,5 +25,4 @@ html {
   &[data-theme="dark"] {
     @include colors-dark;
   }
-
 }
