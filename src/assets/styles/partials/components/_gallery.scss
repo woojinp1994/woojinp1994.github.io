@@ -1,0 +1,35 @@
+.gallery-container {
+  padding: spacing(4);
+}
+
+.knife-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: spacing(4);
+
+  img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.knife-detail {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: spacing(4);
+}
+
+.knife-carousel {
+  // Add carousel styling here
+  margin-bottom: spacing(4);
+}
+
+.knife-info {
+  // Add knife information styling here
+}
