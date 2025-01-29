@@ -13,3 +13,11 @@ permalink: /gallery/
     </div>
   {% endfor %}
 </div>
+
+<div class="knife-grid">
+  {% for knife in collections.knives %}
+    <a href="{{ knife.url }}" class="knife-thumbnail">
+    {% include "postImage.html" src: {{ knife.data.thumbnail }}, alt: {{ knife.data.title }} %}
+    </a>
+  {% endfor %}
+</div>
