@@ -4,4 +4,4 @@ title: Knife Gallery
 permalink: /gallery/
 ---
 
-{% include "postImage.html" src: "./knives/knife1/images/ice-cream.png", alt: "A closer look at ice cream, at the molecular level." %}
+{% include "postImage.html" src: "./knives/knife1/images/image1.jpg", alt: "A closer look at ice cream, at the molecular level." %}
