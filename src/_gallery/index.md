@@ -12,6 +12,10 @@ permalink: /gallery/
       <p>URL: {{ knife.url }}</p>
       <p>Input Path: {{ page.inputPath }}</p>
       <p>Path Parse (Directory): {{ page.inputPath | pathParse: 'dir' }}</p>
+
+      {% assign src = knife.data.thumbnail %}
+      <p>src value: {{ src }}</p>
+      <p>Final Image Path: {{ page.inputPath | pathParse: 'dir' | pathJoin: src }}</p>
     </div>
   {% endfor %}
 </div>
