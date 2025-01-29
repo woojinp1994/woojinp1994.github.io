@@ -3,14 +3,15 @@ layout: gallery
 title: Knife Gallery
 permalink: /gallery/
 ---
-{% for knife in collections.knives %}
-<a href="{{ knife.url }}" class="knife-card">
-  {% if knife.data.thumbnail %}
-    {% include "postImage.html", 
-      src=knife.data.thumbnail,
-      alt=knife.data.title
-    %}
-  {% endif %}
-  <h2>{{ knife.data.title }}</h2>
-</a>
-{% endfor %}
+<div class="knife-grid">
+  {% for knife in collections.knives %}
+    <a href="{{ knife.url }}" class="knife-card">
+      {% include "image.html" 
+        src=knife.data.thumbnail
+        alt=knife.data.title
+        isLazy=true
+      %}
+      <h2>{{ knife.data.title }}</h2>
+    </a>
+  {% endfor %}
+</div>
