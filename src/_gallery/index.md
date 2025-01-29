@@ -8,7 +8,7 @@ permalink: /gallery/
   {% for knife in collections.knives %}
     <a href="{{ knife.url }}" class="knife-thumbnail">
       {% include "image.html" 
-        src=knife.data.thumbnail
+        src="/knives/knife1/images/image1.jpg"
         alt=knife.data.title
         isLazy=true
         sizes="(min-width: 768px) 50vw, 100vw"
