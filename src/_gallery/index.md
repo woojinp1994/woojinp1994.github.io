@@ -7,8 +7,8 @@ permalink: /gallery/
 <a href="{{ knife.url }}" class="knife-card">
   {% if knife.data.thumbnail %}
     {% include "postImage.html" 
-      src: knife.data.thumbnail | toString
-      alt: knife.data.title
+      "src": knife.data.thumbnail
+      "alt": knife.data.title
     %}
   {% endif %}
   <h2>{{ knife.data.title }}</h2>
