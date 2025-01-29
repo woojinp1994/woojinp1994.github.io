@@ -7,12 +7,7 @@ permalink: /gallery/
 <div class="knife-grid">
   {% for knife in collections.knives %}
     <a href="{{ knife.url }}" class="knife-thumbnail">
-      {% include "image.html" 
-        src="/knives/knife1/images/image1.jpg"
-        alt="huhhg"
-        isLazy=true
-        sizes="(min-width: 768px) 50vw, 100vw"
-      %}
+    {% include "postImage.html" src: ".knives/knife1/images/image1.jpg", alt: "The legendary shop. This is their first and main location, of three in Fresno." %}
     </a>
   {% endfor %}
 </div>
