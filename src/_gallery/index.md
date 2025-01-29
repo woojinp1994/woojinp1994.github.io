@@ -6,13 +6,14 @@ permalink: /gallery/
 
 <div class="knife-grid">
   {% for knife in collections.knives %}
-    <!-- Simple debug output -->
+    <!-- Debug output -->
     <pre>
       Thumbnail: {{ knife.data.thumbnail }}
     </pre>
     
+    {% assign thumbnailPath = knife.data.thumbnail %}
     {% include "postImage.html" 
-      src=knife.data.thumbnail
+      src=thumbnailPath
       alt=knife.data.title
     %}
     <h2>{{ knife.data.title }}</h2>
