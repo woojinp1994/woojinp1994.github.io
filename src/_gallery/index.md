@@ -9,11 +9,10 @@ permalink: /gallery/
     <a href="{{ knife.url }}" class="knife-thumbnail">
       {% include "image.html" 
         src="/knives/knife1/images/image1.jpg"
-        alt=knife.data.title
+        alt="huhhg"
         isLazy=true
         sizes="(min-width: 768px) 50vw, 100vw"
       %}
-      <h2>{{ knife.data.title }}</h2>
     </a>
   {% endfor %}
 </div>
