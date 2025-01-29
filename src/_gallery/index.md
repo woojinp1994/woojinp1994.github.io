@@ -1,16 +1,7 @@
 ---
-layout: gallery
+layout: default
 title: Knife Gallery
 permalink: /gallery/
 ---
-<div class="knife-grid">
-  {% for knife in collections.knives %}
-    <a href="{{ knife.url }}" class="knife-card">
-      {% include "image.html" 
-        src=knife.data.thumbnail
-        alt=knife.data.title
-      %}
-      <h2>{{ knife.data.title }}</h2>
-    </a>
-  {% endfor %}
-</div>
+
+{% include "postImage.html" src: "./knives/knife1/images/ice-cream.png", alt: "A closer look at ice cream, at the molecular level." %}
