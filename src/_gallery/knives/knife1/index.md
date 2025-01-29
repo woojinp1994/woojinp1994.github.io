@@ -1,11 +1,11 @@
 ---
 layout: knife
 title: Cool Knife 1
-thumbnail: ./images/image1.jpg
+thumbnail: /knives/knife1/images/image1.jpg
 images:
-  - ./images/image1.jpg
-  - ./images/image2.jpg
-  - ./images/image3.jpg
+  - /knives/knife1/images/image1.jpg
+  - /knives/knife1/images/image2.jpg
+  - /knives/knife1/images/image3.jpg
 specs:
   steel: VG10
   handle: Walnut
