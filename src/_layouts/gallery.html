@@ -4,6 +4,14 @@ layout: default
 <div class="gallery-container">
   <h1>Knife Gallery</h1>
   <div class="knife-grid">
-    {{ content }}
+    {% for knife in collections.gallery %}
+      <a href="{{ knife.url }}" class="knife-thumbnail">
+        {% include "postImage.html" 
+          src=knife.data.thumbnail
+          alt=knife.data.title
+          isLazy=true
+        %}
+      </a>
+    {% endfor %}
   </div>
 </div>

@@ -60,6 +60,8 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addPassthroughCopy(path.join(dir.input, dir.assets, 'fonts'));
   eleventyConfig.addPassthroughCopy(path.join(dir.input, dir.assets, 'videos'));
   eleventyConfig.addPassthroughCopy(path.join(imagePaths.input, 'art'));
+  eleventyConfig.addPassthroughCopy("src/_gallery/**/*.jpg");
+  eleventyConfig.addPassthroughCopy("src/_gallery/**/*.png");
   eleventyConfig.addPassthroughCopy("CNAME");
 
   // Custom shortcodes
