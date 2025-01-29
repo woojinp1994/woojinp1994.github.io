@@ -9,7 +9,7 @@ permalink: /gallery/
       {% include "image.html" 
         src=knife.data.thumbnail
         alt=knife.data.title
-        isLazy=true
+        loading="lazy"
       %}
       <h2>{{ knife.data.title }}</h2>
     </a>
