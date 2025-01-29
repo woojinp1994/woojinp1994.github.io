@@ -8,7 +8,7 @@
             <span class="site-name">Woojin Park</span>
           </a>
         </li>
-        {%- assign navLinks = "About,Projects,Blog,Gallery" | split: ',' -%}
+        {%- assign navLinks = "About,Blog,Gallery" | split: ',' -%}
         {%- for link in navLinks -%}
         <li>
           {%- assign href = link | downcase | prepend: "/" | append: "/" -%}
