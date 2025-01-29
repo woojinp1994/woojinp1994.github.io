@@ -4,4 +4,14 @@ title: Knife Gallery
 permalink: /gallery/
 ---
 
-{% include "postImage.html" src: "./knives/knife1/images/image1.jpg", alt: "A closer look at ice cream, at the molecular level." %}
+<div class="knife-grid">
+  {% for knife in collections.knives %}
+    <a href="{{ knife.url }}" class="knife-thumbnail">
+      {% include "postImage.html" 
+        src=knife.data.thumbnail
+        alt=knife.data.title
+      %}
+      <h2>{{ knife.data.title }}</h2>
+    </a>
+  {% endfor %}
+</div>
