@@ -17,9 +17,11 @@ permalink: /gallery/
       <p>Final Image Path: {{ page.inputPath | pathParse: 'dir' | pathJoin: src }}</p>
     </div>
 
-    <!-- Wrap the image in a link to the knife's URL -->
-    <a href="{{ knife.url }}">
-      {% include "galleryImage.html" src: knife.data.thumbnail, alt: knife.data.title %}
-    </a>
+    <!-- Pass the knife.url from index.md to galleryImage.html -->
+    {% include "galleryImage.html" 
+      src: knife.data.thumbnail, 
+      alt: knife.data.title, 
+      linkUrl: knife.url 
+    %}
   {% endfor %}
 </div>

@@ -11,3 +11,30 @@
   isLinked=true 
   isLazy=isLazy 
   url=url -%}
+
+
+  {%- assign imageSrc = page.inputPath | pathParse: 'dir' | pathJoin: src -%}
+
+  <figure>
+    {%- if linkUrl -%}  <!-- Check if linkUrl is passed -->
+      <a href="{{ linkUrl }}"> <!-- Wrap image in a link -->
+    {%- endif -%}
+      {%- include "image.html" 
+        src: imageSrc
+        alt: alt
+        baseFormat: baseFormat
+        formats: formats
+        widths: widths
+        sizes: sizes
+        className: className
+        isLazy: isLazy
+      %}
+    {%- if linkUrl -%}  
+      </a>  <!-- Close the link -->
+    {%- endif -%}
+  
+    {%- if caption -%}
+      <figcaption{% if isCaptionAriaHidden %} aria-hidden="true"{% endif %}>{{ caption | toHtml }}</figcaption>
+    {%- endif -%}
+  </figure>
+  

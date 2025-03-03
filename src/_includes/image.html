@@ -4,29 +4,24 @@ This is a workaround for the fact that 11ty doesn't support named shortcode argu
 {%- endcomment -%}
 {%- capture props -%}
   {
-    "src": "{{ src }}",
+    "src": "{{ src }}"
     {%- if alt -%},"alt": "{{ alt }}"{%- endif -%}
     {%- if baseFormat -%},"baseFormat": "{{ baseFormat }}"{%- endif -%}
     {%- if optimizedFormats -%},"optimizedFormats": {{ optimizedFormats }}{%- endif -%}
     {%- if widths -%},"widths": {{ widths }}{%- endif -%}
     {%- if sizes -%},"sizes": "{{ sizes }}"{%- endif -%}
-    {%- comment -%}Explicit nil check since isLinked is a boolean prop.{%- endcomment -%}
-    {%- if isLinked != nil -%},"isLinked": {{ isLinked }}{%- endif -%}
     {%- if className -%},"className": "{{ className }}"{%- endif -%}
     {%- if imgClassName -%},"imgClassName": "{{ imgClassName }}"{%- endif -%}
     {%- if fileName -%},"fileName": "{{ fileName }}"{%- endif -%}
     {%- if isLazy != nil -%},"isLazy": {{ isLazy }}{%- endif -%}
-    {%- if url -%},"url": "{{ url }}"{%- endif -%}
   }
 {%- endcapture -%}
 {%- assign props = props | fromJson -%}
 
-{%- comment -%}Wrapper around custom image shortcode to forward named arguments.{%- endcomment -%}
-
-{% if props.isLinked %}
-  <a href="{{ props.url }}" target="_blank">
-    {%- image props -%}
-  </a>
-{% else %}
-  {%- image props -%}
-{% endif %}
+{%- comment -%} This is the actual image tag rendering based on the above properties. {%- endcomment -%}
+<img 
+  src="{{ props.src }}" 
+  alt="{{ props.alt | default: 'Image' }}" 
+  class="{{ props.className | default: '' }}" 
+  {% if props.isLazy %}loading="lazy"{% endif %} 
+/>
