@@ -1,40 +1,23 @@
 {%- assign imageSrc = page.inputPath | pathParse: 'dir' | pathJoin: src -%}
-{%- include "figure.html" 
-  src=imageSrc 
-  alt=alt 
-  caption=caption 
-  baseFormat=baseFormat 
-  formats=formats 
-  widths=widths 
-  sizes=sizes 
-  className=className 
-  isLinked=true 
-  isLazy=isLazy 
-  url=url -%}
 
+{%- comment -%}
+If `linkUrl` is passed, we wrap the image in a clickable link.
+{%- endcomment -%}
+{% if linkUrl %}
+  <a href="{{ linkUrl }}">
+{% endif %}
 
-  {%- assign imageSrc = page.inputPath | pathParse: 'dir' | pathJoin: src -%}
+  {%- include "image.html" 
+      src: imageSrc, 
+      alt: alt, 
+      baseFormat: baseFormat, 
+      formats: formats, 
+      widths: widths, 
+      sizes: sizes, 
+      className: className, 
+      isLazy: isLazy 
+  %}
 
-  <figure>
-    {%- if linkUrl -%}  <!-- Check if linkUrl is passed -->
-      <a href="{{ linkUrl }}"> <!-- Wrap image in a link -->
-    {%- endif -%}
-      {%- include "image.html" 
-        src: imageSrc
-        alt: alt
-        baseFormat: baseFormat
-        formats: formats
-        widths: widths
-        sizes: sizes
-        className: className
-        isLazy: isLazy
-      %}
-    {%- if linkUrl -%}  
-      </a>  <!-- Close the link -->
-    {%- endif -%}
-  
-    {%- if caption -%}
-      <figcaption{% if isCaptionAriaHidden %} aria-hidden="true"{% endif %}>{{ caption | toHtml }}</figcaption>
-    {%- endif -%}
-  </figure>
-  
+{% if linkUrl %}
+  </a>
+{% endif %}
