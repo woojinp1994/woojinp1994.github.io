@@ -4,7 +4,8 @@
 If `linkUrl` is passed, we wrap the image in a clickable link.
 {%- endcomment -%}
 {% if linkUrl %}
-  <a href="{{ linkUrl }}" style="display: inline-block;">
+  <!-- Make sure the anchor tag wraps the entire image -->
+  <a href="{{ linkUrl }}" class="knife-image-link" style="display: block; width: 100%; height: 100%; text-decoration: none;">
 {% endif %}
 
   {%- include "image.html" 
