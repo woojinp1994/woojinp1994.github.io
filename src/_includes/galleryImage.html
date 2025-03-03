@@ -1,23 +1,16 @@
 {%- assign imageSrc = page.inputPath | pathParse: 'dir' | pathJoin: src -%}
 
-{%- comment -%}
-If `linkUrl` is passed, we wrap the image in a clickable link.
-{%- endcomment -%}
 {% if linkUrl %}
-  <!-- Make sure the anchor tag wraps the entire image -->
-  <a href="{{ linkUrl }}" class="knife-image-link" style="display: block; width: 100%; height: 100%; text-decoration: none;">
+  <a href="{{ linkUrl }}" class="knife-image-link">
 {% endif %}
 
-  {%- include "image.html" 
-      src: imageSrc, 
-      alt: alt, 
-      baseFormat: baseFormat, 
-      formats: formats, 
-      widths: widths, 
-      sizes: sizes, 
-      className: className, 
-      isLazy: isLazy 
-  %}
+  <div class="knife-thumbnail">
+    {%- include "image.html" 
+        src: imageSrc, 
+        alt: alt, 
+        className: "knife-image" 
+    %}
+  </div>
 
 {% if linkUrl %}
   </a>

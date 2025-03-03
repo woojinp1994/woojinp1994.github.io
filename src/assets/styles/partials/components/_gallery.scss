@@ -1,62 +1,33 @@
-.gallery-container {
-  padding: spacing(4);
-}
-
-.knife-thumbnail {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1;
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
+/* Ensuring that the container and image elements are set properly */
 
 .knife-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: spacing(4);
+  grid-template-columns: repeat(4, 1fr); /* 4 images per row */
+  gap: 16px; /* Space between images */
 }
 
-.knife-grid img {
+.knife-item {
+  /* Each item inside the grid (black box with image) */
+  border: 1px solid black;
+  padding: 10px;
+  display: flex;
+  justify-content: center; /* Center image inside box */
+  align-items: center; /* Center image vertically */
+}
+
+.knife-thumbnail {
   width: 100%;
-  height: 300px;
-  object-fit: cover;
-  transition: transform 0.2s;
+  height: 300px; /* All images will have the same height */
+  overflow: hidden; /* Prevent overflow */
+}
+
+.knife-image {
+  width: 100%; /* Makes sure image fills the div */
+  height: 100%; /* Ensures image maintains aspect ratio and fits */
+  object-fit: cover; /* Prevents stretching or distortion */
 }
 
 .knife-image-link {
   display: block;
-  width: 100%;
-  height: auto;
-  text-decoration: none;  /* Ensure no underlines or other styles from the link */
-}
-
-.knife-image-link img {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: cover; /* Ensures the image is responsive and doesn't distort */
-}
-
-/* Now, put the hover effect AFTER the knife-image-link rule to avoid specificity issues */
-.knife-grid img:hover {
-  transform: scale(1.05);
-}
-
-.knife-detail {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: spacing(4);
-}
-
-.knife-carousel {
-  margin-bottom: spacing(4);
-}
-
-.knife-info {
-  // Add knife information styling here
+  text-decoration: none;  /* Remove underline from links */
 }
