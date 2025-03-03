@@ -16,5 +16,6 @@ permalink: /gallery/
       <p>src value: {{ src }}</p>
       <p>Final Image Path: {{ page.inputPath | pathParse: 'dir' | pathJoin: src }}</p>
     </div>
+    {% include "postImage.html" src: knife.data.thumbnail, alt: knife.data.title %}
   {% endfor %}
 </div>
